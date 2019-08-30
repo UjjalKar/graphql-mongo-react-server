@@ -11,9 +11,14 @@ const { MONGODB } = require("./config");
 
 const server = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
+  context: ({ req }) => ({ req })
 });
-
+/**
+ * getting req.body as context
+ * so we can verify the user
+ * for protected routes
+ */
 mongoose.connect(MONGODB, { useNewUrlParser: true }).then(() => {
   return server.listen({ port: 5000 }).then(res => {
     console.log(`Server running at ${res.url}`);
